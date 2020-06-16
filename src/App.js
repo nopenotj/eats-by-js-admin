@@ -1,26 +1,19 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import * as React from "react";
+import { Admin, Resource, ListGuesser, EditGuesser } from 'react-admin';
+import dataProvider from './dataProvider'
+import { RestaurantList, RestaurantEdit, RestaurantCreate } from './restaurants'
+import { UserList, UserEdit, UserCreate } from './users'
+import authProvider from './authProvider'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+// const domain = 'https://eats-by-js-api.herokuapp.com/'
+const domain = 'http://localhost:3000/'
+const App = () => 
+    (
+        <Admin dataProvider={dataProvider(domain)} authProvider={authProvider(domain)}>
+            <Resource name="restaurants" list={RestaurantList} edit={RestaurantEdit} create={RestaurantCreate}/>
+            <Resource name="users" list={UserList} edit={UserEdit} create={UserCreate}/>
+        </Admin>
+    )
+    
 
 export default App;
