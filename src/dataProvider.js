@@ -23,17 +23,32 @@ export default (apiUrl) => ({
         };
         const url = `${apiUrl}/${resource}?${stringify(query)}`;
 
-        return httpClient(url).then(({ headers, json }) => ({
-            data: json.data.map(value => Object.assign(
-              { id: value.id },
-              value.attributes,
-            )),
-            total: json.meta.total_count
-        }));
+        return httpClient(url).then(({ headers, json }) => {
+
+            return {
+                data: json.data.map(value => {
+                    const rs = {}
+                    if(value.relationships) {
+                        for (const [k, v] of Object.entries(value.relationships)) {
+                            Object.assign(rs, { [`${k}_id`] : v.data.map(e => e.id)})
+                        }
+                    }
+                    
+                    return Object.assign(
+                        { id: value.id },
+                        {
+                            ...value.attributes,
+                            ...rs,
+                        }
+                    )
+                }),
+                total: json.meta.total_count
+            }
+        });
     },
 
     getOne: (resource, params) =>
-        httpClient(`${apiUrl}/${resource}/${params.id}`).then(({ json }) => ({
+    httpClient(`${apiUrl}/${resource}/${params.id}`).then(({ json }) => ({
             data: json,
         })),
 
@@ -42,7 +57,12 @@ export default (apiUrl) => ({
             filter: JSON.stringify({ id: params.ids }),
         };
         const url = `${apiUrl}/${resource}?${stringify(query)}`;
-        return httpClient(url).then(({ json }) => ({ data: json }));
+        return httpClient(url).then(({ json }) => ({ 
+            data: json.data.map(value => Object.assign(
+                {id : value.id},
+                value.attributes
+            ))
+        }));
     },
 
     getManyReference: (resource, params) => {

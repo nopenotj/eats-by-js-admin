@@ -1,8 +1,25 @@
 import * as React from "react";
-import { List, Datagrid, TextField, NumberField, BooleanField, TextInput, NumberInput, BooleanInput, SimpleForm, Edit, Create } from 'react-admin';
+import { 
+    List,
+    Datagrid,
+    TextField,
+    NumberField,
+    BooleanField,
+    TextInput,
+    NumberInput,
+    BooleanInput,
+    SimpleForm,
+    Edit,
+    Create,
+    ReferenceArrayField,
+    ReferenceArrayInput,
+    SingleFieldList,
+    ChipField,
+    AutocompleteArrayInput,
+} from 'react-admin';
 
 export const RestaurantList = props => (
-    <List {...props}>
+    <List {...props} asdf={console.log(props)}>
         <Datagrid rowClick="edit">
             <TextField source="id" />
             <TextField source="title" />
@@ -16,6 +33,11 @@ export const RestaurantList = props => (
             <BooleanField source="halal_certified" />
             <TextField source="closed_on" />
             <TextField source="contact" />
+            <ReferenceArrayField label="Tags" reference="tags" source="tags_id">
+                <SingleFieldList>
+                    <ChipField source="name" />
+                </SingleFieldList>
+            </ReferenceArrayField>
         </Datagrid>
     </List>
 );
@@ -53,6 +75,9 @@ export const RestaurantEdit = props => (
             <BooleanInput source="halal_certified" />
             <TextInput source="closed_on" />
             <TextInput source="contact" />
+            <ReferenceArrayInput label="Tags" reference="tags" source="tags_id">
+                <AutocompleteArrayInput />
+            </ReferenceArrayInput>
         </SimpleForm>
     </Edit>
 );
