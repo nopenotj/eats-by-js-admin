@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Admin, Resource, ListGuesser, EditGuesser } from 'react-admin';
+import { Admin, Resource,  } from 'react-admin';
 import dataProvider from './dataProvider'
 import { RestaurantList, RestaurantEdit, RestaurantCreate } from './restaurants'
 import { UserList, UserEdit, UserCreate } from './users'

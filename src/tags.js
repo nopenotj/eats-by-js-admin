@@ -4,8 +4,6 @@ import {
     Datagrid,
     TextField,
     TextInput,
-    NumberInput,
-    BooleanInput,
     SimpleForm,
     Create,
 } from 'react-admin';

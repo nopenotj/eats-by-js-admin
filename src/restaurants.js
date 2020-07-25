@@ -16,14 +16,21 @@ import {
     SingleFieldList,
     ChipField,
     AutocompleteArrayInput,
+    Filter,
 } from 'react-admin';
 
+const RestaurantFilter = (props) => (
+    <Filter {...props}>
+        <TextInput label="Search" source="q" alwaysOn />
+        <TextInput label="Title" source="title" defaultValue="Hello, World!" />
+    </Filter>
+);
+
 export const RestaurantList = props => (
-    <List {...props} asdf={console.log(props)}>
+    <List {...props} filters={<RestaurantFilter />}>
         <Datagrid rowClick="edit">
             <TextField source="id" />
             <TextField source="title" />
-            <TextField source="description" />
             <NumberField source="rating" />
             <NumberField source="price" />
             <TextField source="image_link" />

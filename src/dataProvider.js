@@ -21,7 +21,8 @@ export default (apiUrl) => ({
             per_page: JSON.stringify(perPage),
             page: JSON.stringify(page),
         };
-        const url = `${apiUrl}/${resource}?${stringify(query)}`;
+        const q = params.filter.q ? params.filter.q : ""
+        const url = `${apiUrl}/${resource}?${stringify(query)}&q=${q}`;
 
         return httpClient(url).then(({ headers, json }) => {
 
@@ -67,7 +68,7 @@ export default (apiUrl) => ({
 
     getManyReference: (resource, params) => {
         const { page, perPage } = params.pagination;
-        const { field, order } = params.sort;
+        // const { field, order } = params.sort;
         const query = {
             // sort: JSON.stringify([field, order]),
             // range: JSON.stringify([(page - 1) * perPage, page * perPage - 1]),
@@ -97,6 +98,7 @@ export default (apiUrl) => ({
                 attributes: params.data,
             },
         };
+        console.log("body", data)
         return httpClient(`${apiUrl}/${resource}/${params.id}`, {
             method: 'PUT',
             body: JSON.stringify(data),
